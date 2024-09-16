@@ -10,6 +10,7 @@ const Lobby = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("hello1");
     axios
       // .get(`${process.env.REACT_APP_API_URL}/api/codeblocks`)
       .get("https://tom-app-api.onrender.com/api/codeblocks")
@@ -18,6 +19,8 @@ const Lobby = () => {
         setLoading(false);
       })
       .catch((error) => {
+        console.log("hello2");
+
         console.error("Error fetching code blocks:", error);
         setLoading(false);
       });
