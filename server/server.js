@@ -11,7 +11,7 @@ const server = http.createServer(app);
 // Setup Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://tom-app.onrender.com",
     methods: ["GET", "POST"],
   },
 });
@@ -24,7 +24,7 @@ socketHandler(io);
 
 // Middleware setup
 app.use(cors());
-app.use(express.json()); // Ensure the server can parse JSON requests
+app.use(express.json());
 
 // Route handling
 app.use("/api", codeBlockRoutes);
