@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
 });
 
 const dbURI =
-  "mongodb+srv://iyarlevi5:<ajoNQjy2PVi8k8wc>@tom-app.xkuc1.mongodb.net/?retryWrites=true&w=majority&appName=tom-app";
+  "mongodb+srv://iyarlevi5:ajoNQjy2PVi8k8wc@tom-app.xkuc1.mongodb.net/?retryWrites=true&w=majority&appName=tom-app";
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
