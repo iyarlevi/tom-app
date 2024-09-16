@@ -17,6 +17,7 @@ const Lobby = () => {
         console.log("hello1");
         console.log(response);
         console.log(response.data);
+
         setCodeBlocks(response.data);
         setLoading(false);
       })
