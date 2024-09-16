@@ -14,16 +14,12 @@ const Lobby = () => {
       // .get(`${process.env.REACT_APP_API_URL}/api/codeblocks`)
       .get("https://tom-app-api.onrender.com/api/codeblocks")
       .then((response) => {
-        console.log("hello1");
+        console.log("hello");
         console.log(response);
-        console.log(response.data);
-
         setCodeBlocks(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.log("hello2");
-
         console.error("Error fetching code blocks:", error);
         setLoading(false);
       });

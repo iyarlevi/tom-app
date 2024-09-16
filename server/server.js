@@ -80,6 +80,7 @@ mongoose
   .then(() => {
     console.log("MongoDB connected");
     console.log("Connection status:", mongoose.connection.readyState);
+    console.log("Connected to database:", mongoose.connection.name);
   })
   .catch((err) => console.log(err));
 
