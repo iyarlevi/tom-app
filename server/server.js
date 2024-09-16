@@ -5,7 +5,6 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 
-// Initialize Express and HTTP server
 const app = express();
 const server = http.createServer(app);
 
@@ -17,7 +16,6 @@ const io = new Server(server, {
   },
 });
 
-// Import routes and socket handlers
 const codeBlockRoutes = require("./routes/codeBlockRoutes");
 const socketHandler = require("./socket/handlers");
 
@@ -26,8 +24,8 @@ socketHandler(io);
 // Middleware setup
 app.use(cors());
 app.use(express.json());
-
 app.use("/api", codeBlockRoutes);
+
 let rooms = {};
 
 // Socket.IO setup
@@ -40,17 +38,14 @@ io.on("connection", (socket) => {
     if (!rooms[blockId]) {
       rooms[blockId] = 0;
     }
-
     rooms[blockId] += 1;
 
-    // Emit the updated student count to everyone in the room
     io.to(blockId).emit("studentCount", rooms[blockId]);
 
     console.log(
       `User joined room: ${blockId}, total students: ${rooms[blockId]}`
     );
 
-    // Handle disconnecting from the room
     socket.on("disconnect", () => {
       if (rooms[blockId]) {
         rooms[blockId] -= 1;
@@ -70,6 +65,7 @@ io.on("connection", (socket) => {
   });
 });
 
+// DB connection
 const dbURI = process.env.MONGODB_URI;
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })

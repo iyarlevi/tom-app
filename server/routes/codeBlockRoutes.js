@@ -6,7 +6,6 @@ const CodeBlock = require("../models/CodeBlock");
 router.get("/codeblocks", async (req, res) => {
   try {
     const codeBlocks = await CodeBlock.find();
-    console.log(codeBlocks);
     res.json(codeBlocks);
   } catch (error) {
     res.status(500).json({ message: "Server error" });

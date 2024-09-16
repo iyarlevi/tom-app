@@ -24,7 +24,6 @@ const CodeBlock = () => {
   // Fetch the selected code block from the server
   useEffect(() => {
     axios
-      // .get(`${process.env.REACT_APP_API_URL}/api/codeblocks/${blockId}`)
       .get(`https://tom-app-api.onrender.com/api/codeblocks/${blockId}`)
       .then((response) => {
         setCodeBlock(response.data);
@@ -35,53 +34,46 @@ const CodeBlock = () => {
         console.error("Error fetching code block:", error);
       });
 
-    // Connect to the Socket.IO server
     const socketConnection = io("https://tom-app-api.onrender.com");
     setSocket(socketConnection);
 
-    // Join the specific room for the code block
     socketConnection.emit("join", { blockId });
 
     socketConnection.on("role", (assignedRole) => {
       setRole(assignedRole);
     });
 
-    // Handle real-time code updates
     socketConnection.on("codeUpdate", (newCode) => {
       setCode(newCode);
     });
 
-    // Listen for updates to the number of students in the room
     socketConnection.on("studentCount", (count) => {
       setStudentCount(count);
     });
 
     return () => {
-      // Cleanup on component unmount
       socketConnection.disconnect();
     };
   }, [blockId]);
 
-  // Normalize the AST to generalize variable names
+  // Generalize variable names
   const normalizeAST = (ast) => {
     estraverse.traverse(ast, {
       enter: (node) => {
         if (node.type === "Identifier") {
-          node.name = "var"; // Replace all variable names with 'var'
+          // Replace all variable names with 'var'
+          node.name = "var";
         }
       },
     });
     return ast;
   };
 
-  // Compare the student code with the solution using AST
   const compareCodeWithSolution = (studentCode, solutionCode) => {
     try {
-      // Parse both codes into ASTs
       const studentAST = esprima.parseScript(studentCode);
       const solutionAST = esprima.parseScript(solutionCode);
 
-      // Normalize both ASTs
       const normalizedStudentAST = normalizeAST(studentAST);
       const normalizedSolutionAST = normalizeAST(solutionAST);
 
@@ -91,13 +83,11 @@ const CodeBlock = () => {
     }
   };
 
-  // Handle code changes by the student
   const handleCodeChange = (value) => {
     setCode(value);
     if (socket && role === "student") {
       socket.emit("codeChange", { blockId, code: value });
 
-      // Compare code with the solution using AST comparison
       if (compareCodeWithSolution(value, codeBlock.solution)) {
         setShowSmiley(true);
       } else {
@@ -106,7 +96,6 @@ const CodeBlock = () => {
     }
   };
 
-  // Handle showing the next hint
   const showNextHint = () => {
     if (hintIndex < hints.length - 1) {
       setHintIndex(hintIndex + 1);
@@ -115,7 +104,6 @@ const CodeBlock = () => {
     }
   };
 
-  // Redirect students to the lobby if the mentor leaves
   useEffect(() => {
     if (socket) {
       socket.on("mentorLeft", () => {
