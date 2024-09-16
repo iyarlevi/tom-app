@@ -25,7 +25,7 @@ const CodeBlock = () => {
   useEffect(() => {
     axios
       // .get(`${process.env.REACT_APP_API_URL}/api/codeblocks/${blockId}`)
-      .get(`/api/codeblocks/${blockId}`)
+      .get(`https://tom-app-api.onrender.com/api/codeblocks/${blockId}`)
       .then((response) => {
         setCodeBlock(response.data);
         setCode(response.data.template);
@@ -36,7 +36,7 @@ const CodeBlock = () => {
       });
 
     // Connect to the Socket.IO server
-    const socketConnection = io("http://localhost:5000");
+    const socketConnection = io("https://tom-app-api.onrender.com");
     setSocket(socketConnection);
 
     // Join the specific room for the code block
