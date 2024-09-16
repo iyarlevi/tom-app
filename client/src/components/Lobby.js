@@ -10,11 +10,13 @@ const Lobby = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("hello1");
     axios
       // .get(`${process.env.REACT_APP_API_URL}/api/codeblocks`)
       .get("https://tom-app-api.onrender.com/api/codeblocks")
       .then((response) => {
+        console.log("hello1");
+        console.log(response);
+        console.log(response.data);
         setCodeBlocks(response.data);
         setLoading(false);
       })
