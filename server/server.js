@@ -27,17 +27,13 @@ socketHandler(io);
 app.use(cors());
 app.use(express.json());
 
-// Route handling
 app.use("/api", codeBlockRoutes);
-
-// Track the number of students in each room
 let rooms = {};
 
 // Socket.IO setup
 io.on("connection", (socket) => {
   console.log("User connected: ", socket.id);
 
-  // Handle joining a room
   socket.on("join", ({ blockId }) => {
     socket.join(blockId);
 
